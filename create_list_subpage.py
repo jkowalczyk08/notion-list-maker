@@ -1,33 +1,17 @@
-import os
+import sys
 from dotenv import load_dotenv
-from notion_client_wrapper import NotionClientWrapper
-from list_reworker import filter_checked_todos
+from shared.notion_client_wrapper import NotionClientWrapper
+from shared.list_reworker import filter_checked_todos
 from datetime import datetime
 
 # Load environment variables from .env
 load_dotenv()
 
-# Get Notion token and page ID from .env
-notion_token = os.getenv("NOTION_TOKEN")
-notion_page_id = os.getenv("NOTION_PAGE_ID")
+from shared.notion_automations import create_sublist
 
-# Initialize the wrapper
-notion_wrapper = NotionClientWrapper(auth_token=notion_token)
-
-# Fetch blocks from the page
-blocks = notion_wrapper.get_blocks(page_id=notion_page_id)
-
-# Filter the blocks to include only checked to_do blocks and other block types
-filtered_blocks = filter_checked_todos(blocks, excluded_types={"child_page"})
-
-# Create a new page with the filtered blocks
-parent_page_id = notion_page_id  # You can specify a different parent page ID if needed
-new_page_title = f"Filtered Tasks - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-
-new_page = notion_wrapper.create_page(
-    parent_id=parent_page_id,
-    title=new_page_title,
-    children=filtered_blocks
-)
-
-print(f"New page created: {new_page.get('url')}")
+if __name__ == "__main__":
+    print("Running Notion automation script locally...")
+    automation_result = create_sublist()
+    print(f"Local automation finished with result: {automation_result}")
+    if automation_result.get("status") == "error":
+        sys.exit(1) # Indicate failure for local script

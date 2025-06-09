@@ -1,16 +1,14 @@
-import os
+import sys
 from dotenv import load_dotenv
-from notion_client_wrapper import NotionClientWrapper
+from shared.notion_client_wrapper import NotionClientWrapper
 
-# Load environment variables from .env
 load_dotenv()
 
-# Get Notion token and page ID from .env
-notion_token = os.getenv("NOTION_TOKEN")
-notion_page_id = os.getenv("NOTION_PAGE_ID")
+from shared.notion_automations import clear_notion_subpages
 
-# Initialize the wrapper
-notion_wrapper = NotionClientWrapper(auth_token=notion_token)
-
-# Clear subpages from the specified page
-notion_wrapper.clear_blocks_by_type(page_id=notion_page_id, block_type="child_page")
+if __name__ == "__main__":
+    print("Running Notion automation script locally...")
+    automation_result = clear_notion_subpages()
+    print(f"Local automation finished with result: {automation_result}")
+    if automation_result.get("status") == "error":
+        sys.exit(1) # Indicate failure for local script

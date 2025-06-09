@@ -1,6 +1,5 @@
 from typing import List, Dict, Any
 from notion_client import Client
-from concurrent.futures import ThreadPoolExecutor
 
 class NotionClientWrapper:
     def __init__(self, auth_token: str):
@@ -9,7 +8,7 @@ class NotionClientWrapper:
         
         :param auth_token: The authentication token for the Notion API.
         """
-        self.client = Client(auth=auth_token)
+        self.client = Client(auth=auth_token, timeout_ms=10000)
 
     def get_blocks(self, page_id: str) -> List[Dict[str, Any]]:
         blocks = []
