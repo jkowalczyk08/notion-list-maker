@@ -1,15 +1,13 @@
 import azure.functions as func
-import logging
 import json
 
 from shared.notion_automations import create_sublist, clear_notion_subpages
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+app = func.FunctionApp()
 
 @app.route(route="create_list_subpage")
 def create_list_subpage(req: func.HttpRequest) -> func.HttpResponse:
     try:
-        # Call the shared automation logic
         result = create_sublist()
         
         status_code = 200 if result.get("status") == "success" else 500

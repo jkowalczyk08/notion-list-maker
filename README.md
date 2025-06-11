@@ -1,7 +1,7 @@
 # Notion List Maker
 
 ## What is this?
-A Python script for lazy people that don't want to create the same lists over and over again. It helps you create repetitive lists from a reusable template.
+A Python azure function and local script for lazy people that don't want to create the same lists over and over again. It helps you create repetitive lists from a reusable template.
 
 ## Use cases:
 * Groceries list - keep a single list template with all items you might want to buy. Select all you need for this week, run the script, and create a separate list just for this groceries run.
@@ -13,13 +13,21 @@ A Python script for lazy people that don't want to create the same lists over an
 - Create a new Notion page with the filtered content.
 - Let you exclude certain block types if you want (e.g., dividers, headers).
 
-## How to set it up
+## Why Azure Function?
+I wanted this functionality as a shortcut on my iphone. It's possible to make all of this from a shortcut but it's not convenient + I wanted to learn azure functions :)
+
+## How to set up azure function
+
+Run locally and deploy using vs code azure functions extension https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions.
+Remember to set up Notion API token and page ID. 
+
+## How to set it up locally
 
 ### What you need:
 - Python 3.8 or higher
 - pip to install dependencies
 
-### Steps:
+### Steps to run:
 1. Clone this repo
 2. Install the required Python libraries:
 ```sh
@@ -35,7 +43,7 @@ NOTION_PAGE_ID=your_page_id
 ## How to use it
 Run the script:
 ```sh
-python notion_script.py
+python create_list_subpage.py
 ```
 The script will:
 * Fetch blocks from your Notion page.
